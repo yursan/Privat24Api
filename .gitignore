@@ -3,3 +3,7 @@
 ################################################################################
 
 /integration/Privat24/bin/Debug/netcoreapp3.1
+/integration/Privat24/obj
+/Privat24/bin/Debug/netcoreapp3.1
+/Privat24/obj
+/.vs
