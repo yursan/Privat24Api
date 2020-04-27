@@ -7,3 +7,6 @@
 /Privat24/bin/Debug/netcoreapp3.1
 /Privat24/obj
 /.vs
+/tests/integration-tests/Integration.Privat24.Tests/bin/Debug/netcoreapp3.1
+/tests/integration-tests/Integration.Privat24.Tests/obj
+/Privat24/.vs/Privat24/v16
