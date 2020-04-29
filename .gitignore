@@ -1,12 +1,16 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
 
-/integration/Privat24/bin/Debug/netcoreapp3.1
-/integration/Privat24/obj
-/Privat24/bin/Debug/netcoreapp3.1
-/Privat24/obj
-/.vs
-/tests/integration-tests/Integration.Privat24.Tests/bin/Debug/netcoreapp3.1
-/tests/integration-tests/Integration.Privat24.Tests/obj
-/Privat24/.vs/Privat24/v16
+# Visual Studio 2015 cache/options directory
+.vs/
