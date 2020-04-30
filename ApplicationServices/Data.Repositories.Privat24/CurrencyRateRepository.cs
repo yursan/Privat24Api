@@ -22,7 +22,7 @@ namespace Data.Repositories.Privat24
 
         public async Task<IReadOnlyList<CurrencyRateEntity>> GetCurrencyRates(DateTime date)
         {
-            var result = new List<CurrencyRateEntity>;
+            var result = new List<CurrencyRateEntity>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var command = new SqlCommand("GetCurrencyRatesByDate", connection))

@@ -1,0 +1,11 @@
+{
+	"Logging": {
+		"LogLevel": {
+			"Default": "Debug",
+			"Hangfire": "Debug"
+		}
+	},
+	"ConnectionStrings": {
+		"Privat24Db": "Server=DESKTOP-JQAJPMS;Initial Catalog=Privat24;User ID=sa;Password=*Offerta*"
+	}
+}

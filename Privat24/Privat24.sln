@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{AE540593-3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "..\DAL\DAL.csproj", "{D5483113-1AA4-4C4C-860E-F7059D884CB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundServices", "..\BackgroundServices\BackgroundServices.csproj", "{FCA382FD-9723-4417-9F99-D5DE3A40C59D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{D5483113-1AA4-4C4C-860E-F7059D884CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5483113-1AA4-4C4C-860E-F7059D884CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5483113-1AA4-4C4C-860E-F7059D884CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA382FD-9723-4417-9F99-D5DE3A40C59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA382FD-9723-4417-9F99-D5DE3A40C59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA382FD-9723-4417-9F99-D5DE3A40C59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA382FD-9723-4417-9F99-D5DE3A40C59D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
