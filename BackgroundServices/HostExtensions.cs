@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Diagnostics;
 using System.Runtime;
@@ -17,32 +16,26 @@ namespace BackgroundServices
 
             return host;
         }
-        public static void Log(System.IServiceProvider resolver)
+        public static void Log(IServiceProvider resolver)
         {
             var isDebugging = resolver.GetService<IConfiguration>().GetValue<bool?>("debug") == true || Debugger.IsAttached;
 
-            var title = $"Background Service is starting";
-            title = $"{title} on PID {Process.GetCurrentProcess().Id}";
-            Console.WriteLine(title);
+            var title = $"Background Service is starting on PID {Process.GetCurrentProcess().Id}";
             Console.Title = title;
 
-            var connectionStrings = resolver.GetService<IOptions<ConnectionStrings>>().Value;
+            var connectionString = resolver.GetService<IConfiguration>().GetConnectionString("Privat24Db");
 
             var logger = resolver.GetService<ILogger>();
             if (logger != null)
             {
-                logger.LogDebug("Initializing Host environment");
                 logger.LogInformation(title);
                 logger.LogInformation($"Using GC-Mode: {(GCSettings.IsServerGC ? "Server" : "Client")}");
 
-                if (string.IsNullOrWhiteSpace(connectionStrings.Privat24Db))
-                    logger.LogWarning($"No connection string provided for '{nameof(connectionStrings.Privat24Db)}'.");
+                if (string.IsNullOrWhiteSpace(connectionString))
+                    logger.LogWarning($"No connection string provided for 'Privat24Db'.");
                 else
-                    logger.LogInformation(
-                        $"Using connection string '{AnonymizeSqlConnectionString(connectionStrings.Privat24Db)}' for '{nameof(connectionStrings.Privat24Db)}'."
-                    );
+                    logger.LogInformation( $"Using connection string '{AnonymizeSqlConnectionString(connectionString)}' for 'Privat24Db'.");
             }
-
         }
 
         private static string AnonymizeSqlConnectionString(string connectionString)

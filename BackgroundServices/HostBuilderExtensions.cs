@@ -20,13 +20,13 @@ namespace BackgroundServices
 
                 var config = builder.Build();
                 var configEnvironment = config[EnvironmentKey];
-                
+                /*
                 builder.AddJsonFile(
                     RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                         ? @"c:\privat24\settings.json" //global settings file
                         : @"/etc/privat24/settings.json"
                     , true, true);
-
+                */
                 // Override environment gained from environment variables if possible.
                 if (!string.IsNullOrWhiteSpace(configEnvironment))
                     builder.AddInMemoryCollection(new[]

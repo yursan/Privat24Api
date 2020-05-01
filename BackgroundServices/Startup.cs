@@ -18,6 +18,7 @@ namespace BackgroundServices
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddLogging()
                 .AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Program>>())
                 .AddSingleton(_configuration)
                 .AddHangfireServerWithCustomConfig(_configuration)

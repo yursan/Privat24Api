@@ -2,6 +2,7 @@
 using Hangfire;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,6 +28,11 @@ namespace BackgroundServices
         {
             _logger.LogDebug($"{GetType().Name} is starting.");
 
+            var result = BackgroundJob.Enqueue(() => Console.WriteLine("ENQUEUE JOB!"));
+            _logger.LogDebug($"!!!Result from job Enqueue: {result}");
+
+            _logger.LogInformation("Schedule job to run every 2 mins - '*/2 * * * *'");
+            RecurringJob.AddOrUpdate("Privat24_LoadCurrencyRates", () => Console.WriteLine("--> Recurring job!"), "*/2 * * * *", TimeZoneInfo.Utc);
 
             return Task.CompletedTask;
         }
@@ -34,23 +40,16 @@ namespace BackgroundServices
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogDebug($"{GetType().Name} is stopping.");
-
             return Task.CompletedTask;
         }
         
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var result = BackgroundJob.Enqueue(() => Execute(stoppingToken));
+            _logger.LogDebug($"{GetType().Name} ExecuteAsync is called.");
 
-            return Task.CompletedTask;
-        }
-
-        public Task Execute(CancellationToken cancellationToken)
-        {
-            //var elderRates = await _currencyRateRepository.GetCurrencyRates(DateTime.Today);
-            _logger.LogDebug($"Got {0} currencyRates");
-            //todo
-            return Task.CompletedTask;
+            var result = BackgroundJob.Enqueue(() => Console.WriteLine("Execute Async ENQUEUED JOB!"));
+            _logger.LogDebug($"!!!Result from ExecuteAsync job Enqueue: {result}");
+            await Task.Delay(1000);
         }
     }
 }

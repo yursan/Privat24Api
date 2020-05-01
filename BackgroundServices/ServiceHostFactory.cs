@@ -14,9 +14,11 @@ namespace BackgroundServices
                 .ConfigureConfiguration(args)
                 .ConfigureLogging((ctx, logBuilder) =>
                 {
+                    var connStr = ctx.Configuration.GetSection("ConnectionStrings");
+                    var logSection = ctx.Configuration.GetSection("Logging");
                     logBuilder.SetMinimumLevel(LogLevel.Trace)
-                        .AddConfiguration(ctx.Configuration.GetSection("Logging"))
-                        .ClearProviders();
+                        .AddConfiguration(logSection);
+                        //.ClearProviders();
 #if DEBUG
                     logBuilder.AddConsole();
 #endif
