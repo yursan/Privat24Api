@@ -1,4 +1,6 @@
-﻿using Hangfire;
+﻿using BackgroundServices.Jobs;
+using Data.Repositories.Privat24;
+using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,17 @@ namespace BackgroundServices
 					}))
 				// Add the processing server as IHostedService
 				.AddHangfireServer();
+		}
+
+		public static IServiceCollection RegisterJobs(this IServiceCollection services)
+		{
+//			services.AddTransient<IJob>();
+			return services.AddSingleton(typeof(IJob), typeof(CurrencyRatesJob));
+		}
+
+		public static IServiceCollection RegisterRepositories(this IServiceCollection services)
+		{
+			return services.AddTransient(typeof(ICurrencyRateRepository), typeof(CurrencyRateRepository));
 		}
 	}
 }

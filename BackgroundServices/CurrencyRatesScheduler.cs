@@ -1,5 +1,6 @@
 ﻿using BackgroundServices.Jobs;
 using Hangfire;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,11 +13,13 @@ namespace BackgroundServices
     {
         private readonly IJobClient _jobClient;
         private readonly ILogger<CurrencyRatesScheduler> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-        public CurrencyRatesScheduler(ILogger<CurrencyRatesScheduler> logger, IJobClient jobClient)
+        public CurrencyRatesScheduler(ILogger<CurrencyRatesScheduler> logger, IJobClient jobClient, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _jobClient = jobClient;
+            _serviceProvider = serviceProvider;
         }
 
         public override void Dispose()
@@ -24,15 +27,14 @@ namespace BackgroundServices
             _logger.LogDebug($"{GetType().Name} is disposing.");
         }
 
-        public override Task StartAsync(CancellationToken cancellationToken)
+        public override Task StartAsync(CancellationToken token)
         {
             _logger.LogDebug($"{GetType().Name} is starting.");
+            _logger.LogInformation("Try to schedule job that run every 2 mins - '*/2 * * * *'");
 
-            var result = BackgroundJob.Enqueue(() => Console.WriteLine("ENQUEUE JOB!"));
-            _logger.LogDebug($"!!!Result from job Enqueue: {result}");
+            var job = _serviceProvider.GetService<IJob>();
 
-            _logger.LogInformation("Schedule job to run every 2 mins - '*/2 * * * *'");
-            RecurringJob.AddOrUpdate("Privat24_LoadCurrencyRates", () => Console.WriteLine("--> Recurring job!"), "*/2 * * * *", TimeZoneInfo.Utc);
+            if(job != null) RecurringJob.AddOrUpdate("Privat24_LoadCurrencyRates", () => job.Execute(token), "*/2 * * * *", TimeZoneInfo.Utc);
 
             return Task.CompletedTask;
         }

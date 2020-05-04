@@ -19,6 +19,28 @@ namespace Data.Repositories.Privat24
 	            INSERT (BaseCurrency, ToCurrency, SaleRateNBU, PurchaseRateNBU, SaleRatePB, PurchaseRatePB, [Date], CreatedAt) 
                 VALUES(@BaseCurrency, @ToCurrency, @SaleRateNBU, @PurchaseRateNBU, @SaleRatePB, @PurchaseRatePB, @Date, GETUTCDATE());";
 
+        private const string _getLatestDateSql = "SELECT Min([Date]) as LastQueryDate FROM dbo.CurrencyRate";
+
+        public async Task<DateTime> GetLatestCurrencyRateDate()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var command = new SqlCommand(_getLatestDateSql, connection))
+                {
+                    await connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            var date = (DateTime)reader["LastQueryDate"];
+                            return date;
+                        }
+                        return DateTime.Now;
+                    }
+                }
+            }
+        }
 
         public async Task<IReadOnlyList<CurrencyRateEntity>> GetCurrencyRates(DateTime date)
         {
@@ -60,20 +82,22 @@ namespace Data.Repositories.Privat24
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var command = new SqlCommand(_mergeSql, connection);
-                await connection.OpenAsync();
-
-                foreach (var currencyRate in rates)
+                using (var command = new SqlCommand(_mergeSql, connection))
                 {
-                    AddInsertParameters(command, currencyRate);
-                    try
+                    await connection.OpenAsync();
+
+                    foreach (var currencyRate in rates)
                     {
-                        int numberOfInsertedRows = await command.ExecuteNonQueryAsync();
-                        //Console.log(numberOfInsertedRows);
-                    }
-                    catch (Exception e)
-                    {
-                        //log exception
+                        AddInsertParameters(command, currencyRate);
+                        try
+                        {
+                            int numberOfInsertedRows = await command.ExecuteNonQueryAsync();
+                            //Console.log(numberOfInsertedRows);
+                        }
+                        catch (Exception e)
+                        {
+                            //log exception
+                        }
                     }
                 }
             }

@@ -23,7 +23,9 @@ namespace BackgroundServices
                 .AddSingleton(_configuration)
                 .AddHangfireServerWithCustomConfig(_configuration)
                 .AddSingleton(typeof(IJobClient), typeof(JobClient))
-                .AddHostedService<CurrencyRatesScheduler>();
+                .AddHostedService<CurrencyRatesScheduler>()
+                .RegisterRepositories()
+                .RegisterJobs();
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
