@@ -6,7 +6,7 @@ namespace Data.Repositories.Privat24
 {
     public interface ICurrencyRateRepository
     {
-        Task<DateTime> GetLatestCurrencyRateDate();
+        Task<DateTime?> GetLatestCurrencyRateDate();
         Task<IReadOnlyList<CurrencyRateEntity>> GetCurrencyRates(DateTime date);
         Task AddCurrencyRates(IReadOnlyList<CurrencyRateInsertEntity> rates);
     }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Data.Repositories.Privat24
@@ -21,7 +20,7 @@ namespace Data.Repositories.Privat24
 
         private const string _getLatestDateSql = "SELECT Min([Date]) as LastQueryDate FROM dbo.CurrencyRate";
 
-        public async Task<DateTime> GetLatestCurrencyRateDate()
+        public async Task<DateTime?> GetLatestCurrencyRateDate()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -33,8 +32,9 @@ namespace Data.Repositories.Privat24
                     {
                         if (await reader.ReadAsync())
                         {
-                            var date = (DateTime)reader["LastQueryDate"];
-                            return date;
+                            var result = reader["LastQueryDate"];
+                            var dt = (result == DBNull.Value ? null : result);
+                            return (DateTime?)dt;
                         }
                         return DateTime.Now;
                     }
@@ -92,7 +92,6 @@ namespace Data.Repositories.Privat24
                         try
                         {
                             int numberOfInsertedRows = await command.ExecuteNonQueryAsync();
-                            //Console.log(numberOfInsertedRows);
                         }
                         catch (Exception e)
                         {

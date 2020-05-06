@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using Moq;
 using Privat24;
 using System;
 using System.Linq;
@@ -27,7 +29,8 @@ namespace Integration.Privat24.Tests
 
         private IPrivat24ApiClient CreatePrivat24ApiClient()
         {
-            var factory = new Privat24Factory();
+            var logger = Mock.Of<ILogger<Privat24ApiClient>>();
+            var factory = new Privat24Factory(logger);
             return factory.CreatePublicClient();
         }
     }

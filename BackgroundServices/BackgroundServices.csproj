@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationServices\Data.Repositories.Privat24\Data.Repositories.Privat24.csproj" />
+    <ProjectReference Include="..\integration\Privat24\Privat24.csproj" />
   </ItemGroup>
 
 </Project>

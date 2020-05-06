@@ -4,6 +4,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Privat24;
 using System;
 
 namespace BackgroundServices
@@ -36,7 +37,7 @@ namespace BackgroundServices
 
 		public static IServiceCollection RegisterJobs(this IServiceCollection services)
 		{
-//			services.AddTransient<IJob>();
+			services.AddTransient(typeof(IPrivat24Factory), typeof(Privat24Factory));
 			return services.AddSingleton(typeof(IJob), typeof(CurrencyRatesJob));
 		}
 
