@@ -42,7 +42,7 @@ namespace Data.Repositories.Privat24
             }
         }
 
-        public async Task<IReadOnlyList<CurrencyRateEntity>> GetCurrencyRates(DateTime date)
+        public async Task<IReadOnlyList<CurrencyRateEntity>> GetCurrencyRates(DateTime? dateStart, DateTime? dateEnd)
         {
             var result = new List<CurrencyRateEntity>();
             using (var connection = new SqlConnection(_connectionString))
@@ -51,7 +51,8 @@ namespace Data.Repositories.Privat24
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@date", date);
+                    command.Parameters.AddWithValue("@dateStart", dateStart);
+                    command.Parameters.AddWithValue("@dateEnd", dateEnd);
 
                     await connection.OpenAsync();
 

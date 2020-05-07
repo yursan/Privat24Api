@@ -44,11 +44,11 @@ namespace Integration.Privat24.Tests
         public async Task GetCurrencyRatesForToday()
         {
             // Arrange
-            var date = DateTime.Now;
+            var date = DateTime.Now.AddMonths(-2);
             var repository = new CurrencyRateRepository();
 
             //Act
-            var rates = await repository.GetCurrencyRates(date);
+            var rates = await repository.GetCurrencyRates(date, null);
 
             // Assert
             Assert.NotNull(rates);
