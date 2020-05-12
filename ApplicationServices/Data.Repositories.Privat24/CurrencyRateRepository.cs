@@ -58,7 +58,7 @@ namespace Data.Repositories.Privat24
 
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        if (await reader.ReadAsync())
+                        while (await reader.ReadAsync())
                         {
                             var currencyRate = new CurrencyRateEntity();
                             currencyRate.Id = (long)reader["Id"];

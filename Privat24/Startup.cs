@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +25,7 @@ namespace Privat24
                 .AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Program>>())
                 .AddSingleton(Configuration)
                 .RegisterRepositories()
+                .RegisterAppService()
                 .AddControllers();
         }
 
@@ -44,6 +39,7 @@ namespace Privat24
 
             app.UseHttpsRedirection()
                 .UseRouting()
+                .UseCors("AllowSpecificOrigin")
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
