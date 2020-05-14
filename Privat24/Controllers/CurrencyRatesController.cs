@@ -28,7 +28,7 @@ namespace Privat24WebApp.Controllers
         {
             _logger.LogInformation("CurrencyRates - Getting rates for date range");
 
-            return await _ratesService.GetCurrencyRates(DateTime.Now.AddMonths(-5), DateTime.Now);
+            return await _ratesService.GetCurrencyRates(DateTime.Now.AddMonths(-3), DateTime.Now);
         }
     }
 }

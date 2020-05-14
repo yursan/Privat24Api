@@ -22,7 +22,7 @@ namespace ApplicationServices.Privat24
         public async Task<IReadOnlyList<CurrencyRateModel>> GetCurrencyRates(DateTime? dateStart, DateTime? dateEnd)
         {
             var rateEntities = await _currencyRateRepository.GetCurrencyRates(dateStart, dateEnd);
-            var rateModels = rateEntities.Select(x => new CurrencyRateModel
+            return rateEntities.Select(x => new CurrencyRateModel
             {
                 BaseCurrency = x.BaseCurrency,
                 Currency = x.ToCurrency,
@@ -31,8 +31,9 @@ namespace ApplicationServices.Privat24
                 PurchaseRateNBU = x.PurchaseRateNBU,
                 SaleRatePB = x.SaleRatePB,
                 PurchaseRatePB = x.PurchaseRatePB
-            }).ToArray();
-            return rateModels;
+            })
+            .OrderBy(x => x.Date)
+            .ToArray();
         }
     }
 }
