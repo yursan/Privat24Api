@@ -54,6 +54,20 @@ export default {
                 labels: [ "date", "EUR", "USD"],
                 fillGraph: false,
                 strokeWidth: 3,
+                series: {
+                    'EUR':{
+                      strokeWidth: 1.0,
+                      drawPoints: true,
+                      pointSize: 2.0,
+                      highlightCircleSize: 5
+                    },
+                    'USD':{
+                      strokeWidth: 1.5,
+                      drawPoints: true,
+                      pointSize: 2.5,
+                      highlightCircleSize: 5.5
+                    }
+                }
               });
         }
     }
