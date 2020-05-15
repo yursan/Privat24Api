@@ -7,7 +7,7 @@
       <aside class="sidebar">
       </aside>
       <div class="content">
-        <DigraphLineChart  :title="chartTitle" :data=currencyRatesEUR></DigraphLineChart>
+        <DigraphLineChart  :title="chartTitle" :data=currencyRates></DigraphLineChart>
       </div>
     </main>
   </div>
@@ -27,15 +27,13 @@ export default {
   data () {
     return {
       msg: 'Privat24 vue.js SPA',
-      currencyRatesUSD: [],
-      currencyRatesEUR: [],
+      currencyRates: [],
       ratesEndpoint: 'api/v1/currencyRates',
       chartTitle: 'EUR Currency Rates',
     }
   },
   async created() {
     await this.getAllCurrencyRates();
-    //this.buildLineChart(this.currencyRatesEUR, this.currencyRatesUSD);
   },
 
   methods: {
@@ -44,21 +42,7 @@ export default {
         .then(response => {
           console.log('Response:');
           console.log(response);
-          this.currencyRatesUSD = response.data
-                .filter(c=> c.currency == 'USD')
-                .map(entry => ({
-                  date: new Date(entry.date).getFullYear() + '-' + (new Date(entry.date).getMonth() + 1) + '-' + new Date(entry.date).getDate(),
-                  saleRatePB: entry.saleRatePB,
-                  saleRateNBU: entry.saleRateNBU,
-           }));;
-          this.currencyRatesEUR = response.data
-                .filter(c=> c.currency == 'EUR')
-                .map(entry => ({
-                  date: new Date(entry.date).getFullYear() + '-' + (new Date(entry.date).getMonth() + 1) + '-' + new Date(entry.date).getDate(),
-                  saleRatePB: entry.saleRatePB,
-                  saleRateNBU: entry.saleRateNBU,
-           }));;
-
+          this.currencyRates = response.data;
         })
         .catch(error => {
           console.log('-----error-------');
