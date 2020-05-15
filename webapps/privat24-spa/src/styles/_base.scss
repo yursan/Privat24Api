@@ -1,0 +1,46 @@
+html,
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+html {
+    font-family: var(--font-family-body);
+}
+
+body {
+    background: var(--bg-body);
+    overflow-x: hidden;
+    width: 100%;
+    &.prevent-scroll {
+      overflow-y: hidden;
+    }
+}
+
+input {
+    @include media('<=tablet') {
+      font-size: 16px;
+    }
+}
+  
+h1, h2 {
+    font-weight: normal;
+}
+  
+ ul {
+    list-style-type: none;
+    padding: 0;
+}
+  
+li {
+    display: inline-block;
+    margin: 0 10px;
+}
+  
+a {
+    color: #42b983;
+ }

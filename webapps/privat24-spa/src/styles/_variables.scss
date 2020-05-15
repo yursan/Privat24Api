@@ -1,0 +1,22 @@
+//TYPOGRAPHY
+:root {
+
+  --bg-body: #f8f9fa;
+
+  --font-headings: 'Circular', 'Lato', Tahoma, sans-serif;
+  --font-body: 'Open Sans', 'Lato', Tahoma, sans-serif;
+  --font-family-headings: var(--font-headings);
+  --font-family-body: var(--font-body);
+  --font-family-serif: Georgia, serif;
+  --font-family-info: var(--font-family-headings);
+  --font-size-base: 13px;
+  --font-weight-light: 400;
+  --font-weight-default: 500;
+  --font-weight-headings: 500;
+  --line-height-base: 1.6;
+  --font-color-headings: #2c2d30;
+  --font-color-default: #2b2c31;
+  // TRANSITIONS
+  --transition: all 0.2s ease;
+  --transition-duration-default: 0.2s;
+}
