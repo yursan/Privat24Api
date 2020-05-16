@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,6 +21,12 @@ namespace Data.Repositories.Privat24
 
         private const string _getLatestDateSql = "SELECT Min([Date]) as LastQueryDate FROM dbo.CurrencyRate";
 
+        private readonly ILogger<CurrencyRateRepository> _logger;
+
+        public CurrencyRateRepository(ILogger<CurrencyRateRepository> logger)
+        {
+            _logger = logger;
+        }
         public async Task<DateTime?> GetLatestCurrencyRateDate()
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -60,16 +67,18 @@ namespace Data.Repositories.Privat24
                     {
                         while (await reader.ReadAsync())
                         {
-                            var currencyRate = new CurrencyRateEntity();
-                            currencyRate.Id = (long)reader["Id"];
-                            currencyRate.BaseCurrency = reader["BaseCurrency"].ToString();
-                            currencyRate.ToCurrency = reader["ToCurrency"].ToString();
-                            currencyRate.SaleRateNBU = (decimal)reader["SaleRateNBU"];
-                            currencyRate.PurchaseRateNBU = (decimal)reader["PurchaseRateNBU"];
-                            currencyRate.SaleRatePB = (decimal)reader["SaleRatePB"];
-                            currencyRate.PurchaseRatePB = (decimal)reader["PurchaseRatePB"];
-                            currencyRate.Date = (DateTime)reader["Date"];
-                            currencyRate.CreatedAt = (DateTime)reader["CreatedAt"];
+                            var currencyRate = new CurrencyRateEntity
+                            {
+                                Id = (long)reader["Id"],
+                                BaseCurrency = reader["BaseCurrency"].ToString(),
+                                ToCurrency = reader["ToCurrency"].ToString(),
+                                SaleRateNBU = (decimal)reader["SaleRateNBU"],
+                                PurchaseRateNBU = (decimal)reader["PurchaseRateNBU"],
+                                SaleRatePB = (decimal)reader["SaleRatePB"],
+                                PurchaseRatePB = (decimal)reader["PurchaseRatePB"],
+                                Date = (DateTime)reader["Date"],
+                                CreatedAt = (DateTime)reader["CreatedAt"]
+                            };
 
                             result.Add(currencyRate);
                         }
@@ -93,10 +102,12 @@ namespace Data.Repositories.Privat24
                         try
                         {
                             int numberOfInsertedRows = await command.ExecuteNonQueryAsync();
+                            _logger.LogDebug($"Number of inserted rows: {numberOfInsertedRows}");
                         }
                         catch (Exception e)
                         {
                             //log exception
+                            _logger.LogError(e.Message);
                         }
                     }
                 }

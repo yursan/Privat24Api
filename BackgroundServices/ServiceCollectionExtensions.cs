@@ -38,7 +38,9 @@ namespace BackgroundServices
 		public static IServiceCollection RegisterJobs(this IServiceCollection services)
 		{
 			services.AddTransient(typeof(IPrivat24Factory), typeof(Privat24Factory));
-			return services.AddSingleton(typeof(IJob), typeof(CurrencyRatesJob));
+			//services.AddSingleton(typeof(IJob), typeof(CurrencyRatesJob));
+			return services.AddSingleton(typeof(IJob), typeof(EveryDayCurrencyRatesJob));
+			//return services.AddSingleton(typeof(IJob), typeof(CurrencyRatesJob));
 		}
 
 		public static IServiceCollection RegisterRepositories(this IServiceCollection services)

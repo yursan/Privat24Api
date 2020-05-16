@@ -22,7 +22,7 @@ namespace Integration.Privat24.Tests
             if (!DateTime.TryParseExact("04.11.2014", @"dd.MM.yyyy", new CultureInfo("uk-UA"), DateTimeStyles.None, out DateTime date))
                 date = DateTime.Now;
 
-            var repository = new CurrencyRateRepository();
+            var repository = ArrangeRepository();
 
             //Act
             var rates = await apiClient.GetCurrencyRates(date);
@@ -45,7 +45,7 @@ namespace Integration.Privat24.Tests
         {
             // Arrange
             var date = DateTime.Now.AddMonths(-2);
-            var repository = new CurrencyRateRepository();
+            var repository = ArrangeRepository();
 
             //Act
             var rates = await repository.GetCurrencyRates(date, null);
@@ -54,7 +54,13 @@ namespace Integration.Privat24.Tests
             Assert.NotNull(rates);
             Assert.True(rates.Count() > 0);
         }
-        
+
+        private ICurrencyRateRepository ArrangeRepository()
+        {
+            var logger = Mock.Of<ILogger<CurrencyRateRepository>>();
+            return new CurrencyRateRepository(logger);
+        }
+
         private IReadOnlyList<CurrencyRateInsertEntity> MapRatesToDbEntity(ExchangeRate uahToEur, ExchangeRate uahToUsd, DateTime date)
         {
             return new List<CurrencyRateInsertEntity>

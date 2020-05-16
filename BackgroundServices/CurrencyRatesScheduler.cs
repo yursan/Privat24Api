@@ -30,11 +30,15 @@ namespace BackgroundServices
         public override Task StartAsync(CancellationToken token)
         {
             _logger.LogDebug($"{GetType().Name} is starting.");
-            _logger.LogInformation("Try to schedule job that run every 2 mins - '*/2 * * * *'");
+            //_logger.LogInformation("Try to schedule job that run every 2 mins - '*/2 * * * *'");
 
             var job = _serviceProvider.GetService<IJob>();
 
-            if(job != null) RecurringJob.AddOrUpdate("Privat24_LoadCurrencyRates", () => job.Execute(token), "*/2 * * * *", TimeZoneInfo.Utc);
+            //if(job != null) RecurringJob.AddOrUpdate("Privat24_LoadCurrencyRates", () => job.Execute(token), "* */1 * * *", TimeZoneInfo.Utc);
+
+            //var dailyJob = _serviceProvider.GetService<EveryDayCurrencyRatesJob>();
+
+            var result = BackgroundJob.Enqueue(() => job.Execute(token));
 
             return Task.CompletedTask;
         }
@@ -48,10 +52,7 @@ namespace BackgroundServices
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogDebug($"{GetType().Name} ExecuteAsync is called.");
-
-            var result = BackgroundJob.Enqueue(() => Console.WriteLine("Execute Async ENQUEUED JOB!"));
-            _logger.LogDebug($"!!!Result from ExecuteAsync job Enqueue: {result}");
-            await Task.Delay(1000);
+            await Task.CompletedTask;
         }
     }
 }
